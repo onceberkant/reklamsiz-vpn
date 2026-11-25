@@ -12,6 +12,9 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- keepVPNAlive işi "kalıcı" (setPersisted) planlanıyor; bu izin olmadan
+         JobScheduler IllegalArgumentException fırlatıp :openvpn sürecini çökertiyor -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application>
 
