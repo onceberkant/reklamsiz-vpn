@@ -26,8 +26,8 @@ Depodaki **Releases** bölümünden son `.apk` dosyasını indirip açın.
 
 ## Derleme
 GitHub Actions her `main` yüklemesinde APK'yı derler (`.github/workflows/apk-derle.yml`).
-Yerelde: `git submodule update --init --recursive`, `swig` kurulu olmalı, sonra
-`./gradlew :app:assembleRelease`.
+Yerelde: `git submodule update --init --recursive`, `swig` ve Gradle 9.7.1 kurulu olmalı, sonra
+`gradle :app:assembleRelease` (Android Studio projeyi doğrudan açabilir).
 
 ## Uyarılar
 - VPN Gate sunucularını gönüllüler işletir; sunucu sahibi şifrelenmemiş (HTTP) trafiği görebilir.
