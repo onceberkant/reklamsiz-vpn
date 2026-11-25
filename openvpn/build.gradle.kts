@@ -49,6 +49,8 @@ android {
     sourceSets {
         getByName("main") {
             java.directories.add(File(icsMain, "src/main/java").absolutePath)
+            // AppCustomControl.kt gibi Kotlin dosyaları da java klasöründe duruyor
+            kotlin.directories.add(File(icsMain, "src/main/java").absolutePath)
             aidl.directories.add(File(icsMain, "src/main/aidl").absolutePath)
             res.directories.add(File(icsMain, "src/main/res").absolutePath)
             assets.directories.add(File(icsMain, "src/main/assets").absolutePath)
@@ -57,6 +59,7 @@ android {
         }
         maybeCreate("skeleton").apply {
             java.directories.add(File(icsMain, "src/skeleton/java").absolutePath)
+            kotlin.directories.add(File(icsMain, "src/skeleton/java").absolutePath)
             res.directories.add(File(icsMain, "src/skeleton/res").absolutePath)
         }
     }
