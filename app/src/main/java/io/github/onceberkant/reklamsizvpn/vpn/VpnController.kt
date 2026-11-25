@@ -59,6 +59,8 @@ object VpnController {
         val level: ConnectionStatus,
     )
 
+    /** En iyi 6 reddederse ölçülmüş sıradaki sunucularla birlikte en fazla bu kadar deneme */
+    private const val MAX_TRIES = 12
     private const val ATTEMPT_TIMEOUT_MS = 20_000L
     /** Bağlandıktan sonra bu süre içinde koparsa sunucu "kararsız" sayılır */
     private const val STABILITY_WINDOW_MS = 45_000L
@@ -185,22 +187,28 @@ object VpnController {
                     delay(1_500)
                 }
                 val fresh = pool.filter(notBlacklisted).ifEmpty { pool }
-                val best = ServerProbe.measureBest(key, fresh)
+                val ranked = ServerProbe.measureBest(key, fresh)
                 VpnStatus.logInfo(
-                    "Ölçüm: ${fresh.size} sunucudan en iyi ${best.size} seçildi: " +
-                        best.joinToString { "${it.server.ip} ${it.pingMs}ms %${it.lossPercent}" }
+                    "Ölçüm: ${fresh.size} sunucudan ${ranked.size} tanesi ulaşılabilir. En iyi 6: " +
+                        ranked.take(ServerProbe.BEST_COUNT).joinToString {
+                            "${it.server.ip} ${it.pingMs}ms kayıp:${it.lossPercent?.let { l -> "%$l" } ?: "?"}"
+                        }
                 )
-                candidates = best.map { it.server }.ifEmpty { fresh.take(ServerProbe.BEST_COUNT) }
+                candidates = ranked.map { it.server }.ifEmpty { fresh.take(ServerProbe.BEST_COUNT) }
             }
-            candidates = candidates.take(ServerProbe.BEST_COUNT)
+            // Önce en iyi 6, hepsi reddederse sıradaki ölçülmüş sunucularla devam
+            candidates = candidates.take(MAX_TRIES)
 
             val total = candidates.size
             for ((index, server) in candidates.withIndex()) {
                 _status.value = Status(Phase.CONNECTING, server, index + 1, total, "Bağlanılıyor…")
 
-                if (index > 0 && isTunnelActive()) {
+                // Önceki denemenin OpenVPN süreci tamamen kapanmadan yenisini başlatma:
+                // eski sürecin çıkış mesajı yeni denemenin hatası sanılıyordu.
+                if (isTunnelActive()) {
+                    val before = seq.get()
                     stopService()
-                    delay(1_200)
+                    waitForExit(before)
                 }
 
                 val profile = try {
@@ -235,6 +243,14 @@ object VpnController {
                     }
                     VpnStatus.logInfo("Sunucu atlandı (${server.ip}): $reason")
                     blacklist[server.ip] = System.currentTimeMillis() + BLACKLIST_MS
+                    if (outcome?.level == ConnectionStatus.LEVEL_AUTH_FAILED) {
+                        // Süreç kendisi kapanıyor; çıkışını bekle
+                        waitForExit(outcome.seq)
+                    } else {
+                        val before = seq.get()
+                        stopService()
+                        waitForExit(before)
+                    }
                     continue
                 }
 
@@ -250,6 +266,9 @@ object VpnController {
 
                 VpnStatus.logInfo("Sunucu bağlandıktan sonra yanıt vermeyi kesti (${server.ip}), sıradakine geçiliyor")
                 blacklist[server.ip] = System.currentTimeMillis() + BLACKLIST_MS
+                val before = seq.get()
+                stopService()
+                waitForExit(before)
             }
 
             stopService()
@@ -258,6 +277,19 @@ object VpnController {
                 message = "Denenen $total sunucunun hiçbiri çalışmadı. Başka bir ülke deneyin ya da listeyi yenileyin.",
             )
         }
+    }
+
+    /** OpenVPN sürecinin [afterSeq] sonrasında kapandığını görene kadar (en fazla 4 sn) bekler. */
+    private suspend fun waitForExit(afterSeq: Long) {
+        withTimeoutOrNull(4_000) {
+            events.first {
+                it.seq > afterSeq && (
+                    it.state == "EXITING" || it.state == "NOPROCESS" ||
+                        it.level == ConnectionStatus.LEVEL_NOTCONNECTED
+                    )
+            }
+        }
+        delay(800)
     }
 
     fun disconnect() {

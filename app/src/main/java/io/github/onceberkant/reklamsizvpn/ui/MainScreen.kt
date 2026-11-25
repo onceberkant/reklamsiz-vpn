@@ -341,7 +341,11 @@ private fun BestHeader(
 private fun BestRow(rank: Int, quality: ServerProbe.Quality, active: Boolean) {
     val s = quality.server
     val bg = if (active) Green.copy(alpha = 0.18f) else MaterialTheme.colorScheme.surfaceVariant
-    val lossColor = if (quality.lossPercent == 0) Green else Amber
+    val lossColor = when (quality.lossPercent) {
+        0 -> Green
+        null -> MaterialTheme.colorScheme.onSurfaceVariant
+        else -> Amber
+    }
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -377,7 +381,7 @@ private fun BestRow(rank: Int, quality: ServerProbe.Quality, active: Boolean) {
                 fontWeight = FontWeight.SemiBold,
             )
             Text(
-                "%${quality.lossPercent} kayıp",
+                quality.lossPercent?.let { "%$it kayıp" } ?: "kayıp ölçülemedi",
                 style = MaterialTheme.typography.bodySmall,
                 color = lossColor,
             )
@@ -389,7 +393,7 @@ private fun BestRow(rank: Int, quality: ServerProbe.Quality, active: Boolean) {
 private fun Footer(onCopyLog: () -> Unit) {
     Column(modifier = Modifier.padding(vertical = 8.dp)) {
         Text(
-            "Ping ve kayıp bu cihazdan 5 bağlantı denemesiyle ölçülür; hız VPN Gate'in " +
+            "Ping ve kayıp bu cihazdan 4 ICMP paketiyle ölçülür (sunucu engelliyorsa kayıp ölçülemez); hız VPN Gate'in " +
                 "yayınladığı sunucu hızıdır. Sunucular VPN Gate (Tsukuba Üniversitesi) " +
                 "gönüllüleri tarafından işletilir; sunucu sahibi HTTPS olmayan trafiği görebilir.",
             style = MaterialTheme.typography.bodySmall,

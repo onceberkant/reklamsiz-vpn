@@ -6,11 +6,12 @@ otomatik indirir ve OpenVPN ile bağlanır.
 
 ## Özellikler
 - **En iyi 6 sunucu**: seçime (otomatik ya da ülke) göre sunucular ölçülür ve ekranda listelenir
-  - Kayıp: her sunucuya 5 TCP bağlantı denemesi, başarısız oranı
-  - Ping: başarılı denemelerin ortanca süresi (cihazdan ölçülür)
+  - Kayıp ve ping: 4 ICMP paketi (sistem `ping` komutu, cihazdan ölçülür);
+    sunucu ICMP'yi engelliyorsa tek TCP bağlantısıyla ping, kayıp "ölçülemedi"
+  - VPN portuna yalnızca bir kez bağlanılır (SoftEther saldırı korumasını tetiklememek için)
   - Hız: VPN Gate'in yayınladığı sunucu hızı
   - Sıralama: önce en az kayıp, sonra ping sırası + hız sırası toplamı
-- Tek tuşla bağlanma bu 6 sunucuyu sırayla dener
+- Tek tuşla bağlanma bu 6 sunucuyu sırayla dener; hepsi reddederse ölçülmüş sıradakilerle (toplam 12) devam eder
 - Sunucu reddederse, ulaşılamazsa ya da bağlandıktan sonraki 45 saniye içinde koparsa
   otomatik olarak sıradakine geçilir; sorunlu sunucular 15 dakika atlanır
 - Ülke seçimi (bağlıyken ülkeye dokunmak doğrudan o ülkeye geçirir)

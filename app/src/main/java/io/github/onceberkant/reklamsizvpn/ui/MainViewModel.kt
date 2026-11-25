@@ -147,7 +147,7 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
             val ranked = if (
                 r != null && r.key == key && r.items.isNotEmpty() &&
                 System.currentTimeMillis() - r.time < RANKING_FRESH_MS
-            ) r.items.map { it.server } else null
+            ) r.all.map { it.server } else null
 
             VpnController.connect(key, poolFor(state.servers, key), ranked)
         }
