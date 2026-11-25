@@ -24,6 +24,10 @@ fun countryNameTr(code: String, fallback: String): String {
     return if (name.isBlank() || name.equals(code, ignoreCase = true)) fallback else name
 }
 
+fun formatMbps(mbps: Double): String =
+    if (mbps >= 100) String.format(turkish, "%.0f Mbps", mbps)
+    else String.format(turkish, "%.1f Mbps", mbps)
+
 fun formatBytes(bytes: Long): String {
     if (bytes < 1024) return "$bytes B"
     val kb = bytes / 1024.0

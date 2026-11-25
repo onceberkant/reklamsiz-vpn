@@ -59,13 +59,16 @@ class MainActivity : ComponentActivity() {
                 val ui by vm.ui.collectAsStateWithLifecycle()
                 val vpn by vm.vpnStatus.collectAsStateWithLifecycle()
                 val traffic by vm.traffic.collectAsStateWithLifecycle()
+                val ranking by vm.ranking.collectAsStateWithLifecycle()
                 MainScreen(
                     ui = ui,
                     vpn = vpn,
                     traffic = traffic,
+                    ranking = ranking,
                     onToggle = ::onToggle,
                     onSelectCountry = ::onSelectCountry,
                     onRefresh = vm::refresh,
+                    onMeasure = { vm.measure(force = true) },
                     onCopyLog = ::copyLog,
                 )
             }

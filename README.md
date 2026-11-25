@@ -5,8 +5,12 @@ Kendi sunucusu yoktur: [VPN Gate](https://www.vpngate.net/) gönüllü sunucu li
 otomatik indirir ve OpenVPN ile bağlanır.
 
 ## Özellikler
-- Tek tuşla bağlanma; seçili ülkedeki sunuculara önce paralel erişim testi yapılır,
-  yanıt verenler en hızlıdan başlayarak denenir (en fazla 8)
+- **En iyi 6 sunucu**: seçime (otomatik ya da ülke) göre sunucular ölçülür ve ekranda listelenir
+  - Kayıp: her sunucuya 5 TCP bağlantı denemesi, başarısız oranı
+  - Ping: başarılı denemelerin ortanca süresi (cihazdan ölçülür)
+  - Hız: VPN Gate'in yayınladığı sunucu hızı
+  - Sıralama: önce en az kayıp, sonra ping sırası + hız sırası toplamı
+- Tek tuşla bağlanma bu 6 sunucuyu sırayla dener
 - Sunucu reddederse, ulaşılamazsa ya da bağlandıktan sonraki 45 saniye içinde koparsa
   otomatik olarak sıradakine geçilir; sorunlu sunucular 15 dakika atlanır
 - Ülke seçimi (bağlıyken ülkeye dokunmak doğrudan o ülkeye geçirir)

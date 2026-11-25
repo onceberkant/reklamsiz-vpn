@@ -59,7 +59,6 @@ object VpnController {
         val level: ConnectionStatus,
     )
 
-    private const val MAX_ATTEMPTS = 8
     private const val ATTEMPT_TIMEOUT_MS = 20_000L
     /** Bağlandıktan sonra bu süre içinde koparsa sunucu "kararsız" sayılır */
     private const val STABILITY_WINDOW_MS = 45_000L
@@ -158,34 +157,42 @@ object VpnController {
             // Önceki oturumu bilerek kapattığımızda gelen SIGINT çıkışı hata değil
             (e.state == "EXITING" && !e.message.contains("SIGINT"))
 
-    private fun isTunnelActive(): Boolean =
+    fun isTunnelActive(): Boolean =
         ovpnLevel.value != ConnectionStatus.LEVEL_NOTCONNECTED &&
             ovpnLevel.value != ConnectionStatus.LEVEL_AUTH_FAILED
 
     /**
-     * @param pool Seçili ülkenin (ya da tümünün) puana göre sıralı sunucuları.
+     * @param key    Seçim anahtarı (ülke kodu ya da otomatik)
+     * @param pool   Seçimin sunucuları (VPN Gate puanına göre sıralı)
+     * @param ranked Yakın zamanda ölçülmüş "en iyi 6" (varsa yeniden ölçülmez)
      * VPN izni alınmış olmalı (VpnService.prepare == null).
      */
-    fun connect(pool: List<VpnGateServer>) {
+    fun connect(key: String, pool: List<VpnGateServer>, ranked: List<VpnGateServer>?) {
         connectJob?.cancel()
         if (pool.isEmpty()) {
             _status.value = Status(Phase.FAILED, message = "Bu seçim için sunucu bulunamadı.")
             return
         }
         connectJob = scope.launch {
-            _status.value = Status(Phase.CONNECTING, message = "Sunucular test ediliyor…")
+            val notBlacklisted = { s: VpnGateServer -> (blacklist[s.ip] ?: 0L) < System.currentTimeMillis() }
 
-            // Açık bir tünel varsa önce kapat: testler gerçek ağdan yapılsın
-            if (isTunnelActive()) {
-                stopService()
-                delay(1_500)
+            var candidates = ranked.orEmpty().filter(notBlacklisted)
+            if (candidates.isEmpty()) {
+                _status.value = Status(Phase.CONNECTING, message = "Sunucular ölçülüyor (ping, hız, kayıp)…")
+                // Açık bir tünel varsa önce kapat: ölçüm gerçek ağdan yapılsın
+                if (isTunnelActive()) {
+                    stopService()
+                    delay(1_500)
+                }
+                val fresh = pool.filter(notBlacklisted).ifEmpty { pool }
+                val best = ServerProbe.measureBest(key, fresh)
+                VpnStatus.logInfo(
+                    "Ölçüm: ${fresh.size} sunucudan en iyi ${best.size} seçildi: " +
+                        best.joinToString { "${it.server.ip} ${it.pingMs}ms %${it.lossPercent}" }
+                )
+                candidates = best.map { it.server }.ifEmpty { fresh.take(ServerProbe.BEST_COUNT) }
             }
-
-            val now = System.currentTimeMillis()
-            val fresh = pool.filter { (blacklist[it.ip] ?: 0L) < now }.ifEmpty { pool }
-            val reachable = ServerProbe.rank(fresh)
-            VpnStatus.logInfo("Erişim testi: ${fresh.size} sunucudan ${reachable.size} tanesi yanıt verdi")
-            val candidates = reachable.ifEmpty { fresh }.take(MAX_ATTEMPTS)
+            candidates = candidates.take(ServerProbe.BEST_COUNT)
 
             val total = candidates.size
             for ((index, server) in candidates.withIndex()) {

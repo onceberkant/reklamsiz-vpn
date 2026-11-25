@@ -6,8 +6,10 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import io.github.onceberkant.reklamsizvpn.data.VpnGateRepository
 import io.github.onceberkant.reklamsizvpn.data.VpnGateServer
+import io.github.onceberkant.reklamsizvpn.vpn.ServerProbe
 import io.github.onceberkant.reklamsizvpn.vpn.VpnController
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -26,6 +28,7 @@ data class UiState(
     val countries: List<CountryItem> = emptyList(),
     val selectedCountry: String = AUTO_COUNTRY,
     val loading: Boolean = false,
+    val measuring: Boolean = false,
     val error: String? = null,
     val lastUpdated: Long = 0L,
 )
@@ -44,19 +47,25 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
 
     val vpnStatus = VpnController.status
     val traffic = VpnController.traffic
+    val ranking = ServerProbe.ranking
+
+    private var measureJob: Job? = null
 
     init {
         viewModelScope.launch {
             val cached = withContext(Dispatchers.IO) { repo.cached() }
             setServers(cached, repo.cacheTime())
             val age = System.currentTimeMillis() - repo.cacheTime()
-            if (cached.isEmpty() || age > REFRESH_AFTER_MS) refresh()
+            if (cached.isEmpty() || age > REFRESH_AFTER_MS) refreshNow()
+            measureIfNeeded()
         }
     }
 
     fun refresh() {
         if (_ui.value.loading) return
-        viewModelScope.launch { refreshNow() }
+        viewModelScope.launch {
+            if (refreshNow()) measure(force = true)
+        }
     }
 
     private suspend fun refreshNow(): Boolean {
@@ -85,31 +94,81 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
     fun selectCountry(code: String) {
         prefs.edit().putString(KEY_COUNTRY, code).apply()
         _ui.update { it.copy(selectedCountry = code) }
+        measureIfNeeded()
+    }
+
+    /** Seçimin "en iyi 6" listesi yoksa ya da eskiyse yeniden ölçer. */
+    private fun measureIfNeeded() {
+        val r = ranking.value
+        val key = _ui.value.selectedCountry
+        val stale = r == null || r.key != key ||
+            System.currentTimeMillis() - r.time > RANKING_FRESH_MS
+        if (stale) measure(force = false)
+    }
+
+    /**
+     * Ölçüm gerçek ağdan yapılmalı; VPN açıkken trafik tünelden geçeceği için
+     * ölçüm yapılmaz (bağlanırken denetleyici tüneli kapatıp kendisi ölçer).
+     */
+    fun measure(force: Boolean) {
+        if (VpnController.isTunnelActive() || isBusy()) return
+        if (!force && measureJob?.isActive == true) return
+        val state = _ui.value
+        val pool = poolFor(state.servers, state.selectedCountry)
+        if (pool.isEmpty()) return
+        measureJob?.cancel()
+        measureJob = viewModelScope.launch {
+            _ui.update { it.copy(measuring = true) }
+            try {
+                ServerProbe.measureBest(state.selectedCountry, pool)
+            } finally {
+                _ui.update { it.copy(measuring = false) }
+            }
+        }
+    }
+
+    private fun isBusy(): Boolean = when (vpnStatus.value.phase) {
+        VpnController.Phase.CONNECTING,
+        VpnController.Phase.CONNECTED,
+        VpnController.Phase.RECONNECTING -> true
+        else -> false
     }
 
     /** VPN izni alındıktan sonra çağrılır. */
     fun connect() {
         viewModelScope.launch {
             if (_ui.value.servers.isEmpty() && !refreshNow()) return@launch
+            measureJob?.cancel()
+            _ui.update { it.copy(measuring = false) }
+
             val state = _ui.value
-            VpnController.connect(pickCandidates(state.servers, state.selectedCountry))
+            val key = state.selectedCountry
+            val r = ranking.value
+            val ranked = if (
+                r != null && r.key == key && r.items.isNotEmpty() &&
+                System.currentTimeMillis() - r.time < RANKING_FRESH_MS
+            ) r.items.map { it.server } else null
+
+            VpnController.connect(key, poolFor(state.servers, key), ranked)
         }
     }
 
     fun disconnect() = VpnController.disconnect()
 
-    private fun pickCandidates(servers: List<VpnGateServer>, country: String): List<VpnGateServer> {
-        val pool = if (country == AUTO_COUNTRY) servers else servers.filter { it.countryCode == country }
+    private fun poolFor(servers: List<VpnGateServer>, key: String): List<VpnGateServer> {
+        val pool = if (key == AUTO_COUNTRY) servers else servers.filter { it.countryCode == key }
         return pool
-            .sortedWith(compareByDescending<VpnGateServer> { it.score }.thenBy { it.pingMs })
+            .sortedByDescending { it.score }
             .distinctBy { it.ip }
-            .take(PROBE_POOL)
+            .take(MEASURE_POOL)
     }
 
     companion object {
         private const val KEY_COUNTRY = "ulke"
         private const val REFRESH_AFTER_MS = 60 * 60 * 1000L
-        /** Erişim testine sokulacak en fazla sunucu sayısı */
-        private const val PROBE_POOL = 30
+        /** Ölçüme sokulacak en fazla sunucu sayısı */
+        private const val MEASURE_POOL = 60
+        /** "En iyi 6" listesi bu süre boyunca geçerli sayılır */
+        private const val RANKING_FRESH_MS = 10 * 60 * 1000L
     }
 }

@@ -37,6 +37,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.github.onceberkant.reklamsizvpn.data.VpnGateServer
+import io.github.onceberkant.reklamsizvpn.vpn.ServerProbe
 import io.github.onceberkant.reklamsizvpn.vpn.VpnController.Phase
 import io.github.onceberkant.reklamsizvpn.vpn.VpnController.Status
 import io.github.onceberkant.reklamsizvpn.vpn.VpnController.Traffic
@@ -49,11 +50,19 @@ fun MainScreen(
     ui: UiState,
     vpn: Status,
     traffic: Traffic,
+    ranking: ServerProbe.Ranking?,
     onToggle: () -> Unit,
     onSelectCountry: (String) -> Unit,
     onRefresh: () -> Unit,
+    onMeasure: () -> Unit,
     onCopyLog: () -> Unit,
 ) {
+    val tunnelBusy = vpn.phase == Phase.CONNECTED || vpn.phase == Phase.CONNECTING ||
+        vpn.phase == Phase.RECONNECTING
+    val selectionName = if (ui.selectedCountry == AUTO_COUNTRY) "Otomatik"
+    else countryNameTr(ui.selectedCountry, ui.countries.firstOrNull { it.code == ui.selectedCountry }?.englishName ?: ui.selectedCountry)
+    val bestItems = ranking?.takeIf { it.key == ui.selectedCountry }?.items.orEmpty()
+
     Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
         Column(
             modifier = Modifier
@@ -68,12 +77,6 @@ fun MainScreen(
             StatusText(vpn = vpn, traffic = traffic, error = ui.error)
 
             Spacer(Modifier.height(12.dp))
-            Text(
-                "Ülke seçin",
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.SemiBold,
-            )
-            Spacer(Modifier.height(6.dp))
 
             LazyColumn(
                 modifier = Modifier
@@ -81,6 +84,45 @@ fun MainScreen(
                     .fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(6.dp),
             ) {
+                item(key = "best_header") {
+                    BestHeader(
+                        selectionName = selectionName,
+                        measuring = ui.measuring || (vpn.phase == Phase.CONNECTING && vpn.attempt == 0),
+                        canMeasure = !tunnelBusy && !ui.measuring,
+                        onMeasure = onMeasure,
+                    )
+                }
+                if (bestItems.isEmpty()) {
+                    item(key = "best_empty") {
+                        Text(
+                            when {
+                                ui.measuring -> "Sunucular ölçülüyor…"
+                                tunnelBusy -> "Ölçüm VPN kapalıyken yapılır."
+                                else -> "Henüz ölçüm yok. \"Ölç\"e basın."
+                            },
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier.padding(horizontal = 4.dp),
+                        )
+                    }
+                } else {
+                    items(bestItems.size, key = { "best_" + bestItems[it].server.ip }) { i ->
+                        BestRow(
+                            rank = i + 1,
+                            quality = bestItems[i],
+                            active = vpn.server?.ip == bestItems[i].server.ip &&
+                                vpn.phase != Phase.IDLE && vpn.phase != Phase.FAILED,
+                        )
+                    }
+                }
+                item(key = "country_header") {
+                    Text(
+                        "Ülke seçin",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.SemiBold,
+                        modifier = Modifier.padding(top = 10.dp),
+                    )
+                }
                 item(key = AUTO_COUNTRY) {
                     CountryRow(
                         flag = "⚡",
@@ -268,11 +310,88 @@ private fun CountryRow(
 }
 
 @Composable
+private fun BestHeader(
+    selectionName: String,
+    measuring: Boolean,
+    canMeasure: Boolean,
+    onMeasure: () -> Unit,
+) {
+    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                "En iyi 6 sunucu · $selectionName",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold,
+            )
+            Text(
+                "Sıra: kayıp → ping + hız. Bağlan bu sırayla dener.",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
+        if (measuring) {
+            CircularProgressIndicator(modifier = Modifier.size(18.dp), strokeWidth = 2.dp)
+        } else {
+            TextButton(onClick = onMeasure, enabled = canMeasure) { Text("Ölç") }
+        }
+    }
+}
+
+@Composable
+private fun BestRow(rank: Int, quality: ServerProbe.Quality, active: Boolean) {
+    val s = quality.server
+    val bg = if (active) Green.copy(alpha = 0.18f) else MaterialTheme.colorScheme.surfaceVariant
+    val lossColor = if (quality.lossPercent == 0) Green else Amber
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(12.dp))
+            .background(bg)
+            .padding(horizontal = 12.dp, vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(
+            "$rank",
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.width(18.dp),
+        )
+        Text(flagEmoji(s.countryCode), fontSize = 20.sp)
+        Spacer(Modifier.width(10.dp))
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                countryNameTr(s.countryCode, s.countryName) + if (active) "  · bağlı" else "",
+                style = MaterialTheme.typography.bodyMedium,
+                fontWeight = FontWeight.SemiBold,
+            )
+            Text(
+                s.ip,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
+        Column(horizontalAlignment = Alignment.End) {
+            Text(
+                "${quality.pingMs} ms · ${formatMbps(s.speedMbps)}",
+                style = MaterialTheme.typography.bodySmall,
+                fontWeight = FontWeight.SemiBold,
+            )
+            Text(
+                "%${quality.lossPercent} kayıp",
+                style = MaterialTheme.typography.bodySmall,
+                color = lossColor,
+            )
+        }
+    }
+}
+
+@Composable
 private fun Footer(onCopyLog: () -> Unit) {
     Column(modifier = Modifier.padding(vertical = 8.dp)) {
         Text(
-            "Sunucular VPN Gate (Tsukuba Üniversitesi) gönüllüleri tarafından işletilir. " +
-                "Bağlantı şifrelenir; ancak sunucu sahibi HTTPS olmayan trafiği görebilir.",
+            "Ping ve kayıp bu cihazdan 5 bağlantı denemesiyle ölçülür; hız VPN Gate'in " +
+                "yayınladığı sunucu hızıdır. Sunucular VPN Gate (Tsukuba Üniversitesi) " +
+                "gönüllüleri tarafından işletilir; sunucu sahibi HTTPS olmayan trafiği görebilir.",
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
