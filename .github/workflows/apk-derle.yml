@@ -1,0 +1,83 @@
+# Her yüklemede APK'yı GitHub sunucularında derler.
+# APK, deponun "Releases" bölümünden telefona indirilir.
+# Derleme başarısız olursa günlük "ci-log" dalına yüklenir (hata ayıklamak için).
+name: APK Derle
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: apk-derle
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Kodu ve OpenVPN alt modüllerini indir
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Java 21 kur
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: SWIG kur (OpenVPN 3 bağlayıcıları için)
+        run: sudo apt-get update -q && sudo apt-get install -y -q swig
+
+      - name: Gradle kur ve önbelleğe al
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Android SDK lisanslarını kabul et
+        run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null || true
+
+      - name: APK derle
+        run: |
+          set -o pipefail
+          chmod +x gradlew
+          ./gradlew :app:assembleRelease --stacktrace 2>&1 | tee derleme.log
+
+      - name: APK'yı adlandır
+        run: cp app/build/outputs/apk/release/app-release.apk reklamsiz-vpn-0.1.${{ github.run_number }}.apk
+
+      - name: APK'yı Actions çıktısı olarak sakla
+        uses: actions/upload-artifact@v4
+        with:
+          name: reklamsiz-vpn-apk
+          path: reklamsiz-vpn-0.1.${{ github.run_number }}.apk
+
+      - name: Release oluştur (telefondan kolay indirme)
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v0.1.${{ github.run_number }}
+          name: Reklamsız VPN 0.1.${{ github.run_number }}
+          body: |
+            Telefona kurmak için aşağıdaki .apk dosyasını indirip açın.
+            Sunucular VPN Gate gönüllüleri tarafından işletilir.
+          files: reklamsiz-vpn-0.1.${{ github.run_number }}.apk
+          make_latest: true
+
+      - name: Hata günlüğünü ci-log dalına yükle
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p /tmp/ci-log && cd /tmp/ci-log
+          git init -q
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          cp "$GITHUB_WORKSPACE/derleme.log" . 2>/dev/null || echo "derleme.log yok" > derleme.log
+          grep -n -E "error:|e: |FAILURE|What went wrong|Exception|CMake Error|failed" derleme.log | head -300 > ozet.txt || true
+          echo "run: ${{ github.run_number }} commit: ${{ github.sha }}" > bilgi.txt
+          git add -A
+          git commit -q -m "Derleme günlüğü #${{ github.run_number }}"
+          git push -f -q "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" HEAD:refs/heads/ci-log
