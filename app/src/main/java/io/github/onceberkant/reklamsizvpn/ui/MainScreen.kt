@@ -179,7 +179,9 @@ private fun StatusText(vpn: Status, traffic: Traffic, error: String?) {
     val serverLine = vpn.server?.let { describe(it) }
     val (title, detail) = when (vpn.phase) {
         Phase.IDLE -> "Bağlı değil" to vpn.message.ifBlank { null }
-        Phase.CONNECTING -> "Bağlanılıyor (${vpn.attempt}/${vpn.total})" to serverLine
+        Phase.CONNECTING ->
+            if (vpn.attempt == 0) vpn.message to null
+            else "Bağlanılıyor (${vpn.attempt}/${vpn.total})" to serverLine
         Phase.RECONNECTING -> "Yeniden bağlanılıyor…" to serverLine
         Phase.CONNECTED -> "Bağlı" to listOfNotNull(
             serverLine,

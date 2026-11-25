@@ -103,12 +103,13 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
         return pool
             .sortedWith(compareByDescending<VpnGateServer> { it.score }.thenBy { it.pingMs })
             .distinctBy { it.ip }
-            .take(MAX_ATTEMPTS)
+            .take(PROBE_POOL)
     }
 
     companion object {
         private const val KEY_COUNTRY = "ulke"
         private const val REFRESH_AFTER_MS = 60 * 60 * 1000L
-        private const val MAX_ATTEMPTS = 6
+        /** Erişim testine sokulacak en fazla sunucu sayısı */
+        private const val PROBE_POOL = 30
     }
 }
