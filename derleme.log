@@ -1,0 +1,447 @@
+
+Welcome to Gradle 9.7.1!
+
+Here are the highlights of this release:
+ - Isolated Projects graduates to incubating
+ - Broader Configuration Cache compatibility
+ - Resilient Sync helps you fix broken builds
+ - More source locations in problem reports
+
+For more details see https://docs.gradle.org/9.7.1/release-notes.html
+
+Starting a Gradle Daemon (subsequent builds will be faster)
+
+> Configure project :openvpn
+Checking the license for package NDK (Side by side) 30.0.14904198 in /usr/local/lib/android/sdk/licenses
+License for package NDK (Side by side) 30.0.14904198 accepted.
+Preparing "Install NDK (Side by side) 30.0.14904198 v.30.0.14904198 rc1".
+"Install NDK (Side by side) 30.0.14904198 v.30.0.14904198 rc1" ready.
+Installing NDK (Side by side) 30.0.14904198 in /usr/local/lib/android/sdk/ndk/30.0.14904198
+"Install NDK (Side by side) 30.0.14904198 v.30.0.14904198 rc1" complete.
+"Install NDK (Side by side) 30.0.14904198 v.30.0.14904198 rc1" finished.
+
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preReleaseBuild UP-TO-DATE
+> Task :app:mergeReleaseJniLibFolders
+> Task :openvpn:preBuild UP-TO-DATE
+> Task :openvpn:preSkeletonReleaseBuild UP-TO-DATE
+
+> Task :openvpn:configureCMakeRelWithDebInfo[arm64-v8a]
+Checking the license for package CMake 3.22.1 in /usr/local/lib/android/sdk/licenses
+License for package CMake 3.22.1 accepted.
+Preparing "Install CMake 3.22.1 v.3.22.1".
+"Install CMake 3.22.1 v.3.22.1" ready.
+Installing CMake 3.22.1 in /usr/local/lib/android/sdk/cmake/3.22.1
+"Install CMake 3.22.1 v.3.22.1" complete.
+"Install CMake 3.22.1 v.3.22.1" finished.
+C/C++: OpenVPN 2.x version c29ee42
+C/C++: OpenVPN 3.x version 29f3857
+
+> Task :openvpn:buildCMakeRelWithDebInfo[arm64-v8a]
+C/C++: ninja: Entering directory `/home/runner/work/reklamsiz-vpn/reklamsiz-vpn/openvpn/.cxx/RelWithDebInfo/1h412b6y/arm64-v8a'
+C/C++: In file included from /home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/cpp/openssl/ssl/ssl_asn1.c:18:
+C/C++: /home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/cpp/openssl/include/crypto/asn1.h:45:5: warning: 'nonstring' attribute only applies to fields or variables of character array type; type is 'unsigned char *' [-Wignored-attributes]
+C/C++:    45 |     unsigned char *data OPENSSL_NONSTRING;
+C/C++:       |     ^                   ~~~~~~~~~~~~~~~~~
+C/C++: 1 warning generated.
+
+> Task :openvpn:configureCMakeRelWithDebInfo[armeabi-v7a]
+C/C++: OpenVPN 2.x version c29ee42
+C/C++: OpenVPN 3.x version 29f3857
+
+> Task :openvpn:buildCMakeRelWithDebInfo[armeabi-v7a]
+C/C++: ninja: Entering directory `/home/runner/work/reklamsiz-vpn/reklamsiz-vpn/openvpn/.cxx/RelWithDebInfo/1h412b6y/armeabi-v7a'
+C/C++: /home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/cpp/openssl/crypto/ec/ecp_sm2p256.c:56:25: warning: implicit conversion from 'unsigned long long' to 'BN_ULONG' (aka 'unsigned int') changes value from 18446744069414584319 to 4294967295 [-Wconstant-conversion]
+C/C++:    54 | ALIGN32 static const BN_ULONG def_p[P256_LIMBS] = {
+C/C++:       |                                                   ~
+C/C++:    55 |     0xffffffffffffffff, 0xffffffff00000000,
+C/C++:    56 |     0xffffffffffffffff, 0xfffffffeffffffff
+C/C++:       |                         ^~~~~~~~~~~~~~~~~~
+C/C++: /home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/cpp/openssl/crypto/ec/ecp_sm2p256.c:56:5: warning: implicit conversion from 'unsigned long long' to 'BN_ULONG' (aka 'unsigned int') changes value from 18446744073709551615 to 4294967295 [-Wconstant-conversion]
+C/C++:    54 | ALIGN32 static const BN_ULONG def_p[P256_LIMBS] = {
+C/C++:       |                                                   ~
+C/C++:    55 |     0xffffffffffffffff, 0xffffffff00000000,
+C/C++:    56 |     0xffffffffffffffff, 0xfffffffeffffffff
+C/C++:       |     ^~~~~~~~~~~~~~~~~~
+C/C++: /home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/cpp/openssl/crypto/ec/ecp_sm2p256.c:55:25: warning: implicit conversion from 'unsigned long long' to 'BN_ULONG' (aka 'unsigned int') changes value from 18446744069414584320 to 0 [-Wconstant-conversion]
+C/C++:    54 | ALIGN32 static const BN_ULONG def_p[P256_LIMBS] = {
+C/C++:       |                                                   ~
+C/C++:    55 |     0xffffffffffffffff, 0xffffffff00000000,
+C/C++:       |                         ^~~~~~~~~~~~~~~~~~
+C/C++: /home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/cpp/openssl/crypto/ec/ecp_sm2p256.c:55:5: warning: implicit conversion from 'unsigned long long' to 'BN_ULONG' (aka 'unsigned int') changes value from 18446744073709551615 to 4294967295 [-Wconstant-conversion]
+C/C++:    54 | ALIGN32 static const BN_ULONG def_p[P256_LIMBS] = {
+C/C++:       |                                                   ~
+C/C++:    55 |     0xffffffffffffffff, 0xffffffff00000000,
+C/C++:       |     ^~~~~~~~~~~~~~~~~~
+C/C++: /home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/cpp/openssl/crypto/ec/ecp_sm2p256.c:171:5: warning: 'memcpy' will always overflow; destination buffer has size 16, but size argument is 32 [-Wfortify-source]
+C/C++:   171 |     BN_MOD_INV(out, in, ecp_sm2p256_div_by_2, ecp_sm2p256_sub, def_p);
+C/C++:       |     ^
+C/C++: /home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/cpp/openssl/crypto/ec/ecp_sm2p256.c:142:9: note: expanded from macro 'BN_MOD_INV'
+C/C++:   142 |         memcpy(u, in, 32);                         \
+C/C++:       |         ^
+C/C++: /home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/cpp/openssl/crypto/ec/ecp_sm2p256.c:171:5: warning: 'memcpy' will always overflow; destination buffer has size 16, but size argument is 32 [-Wfortify-source]
+C/C++: /home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/cpp/openssl/crypto/ec/ecp_sm2p256.c:143:9: note: expanded from macro 'BN_MOD_INV'
+C/C++:   143 |         memcpy(v, mod, 32);                        \
+C/C++:       |         ^
+C/C++: 6 warnings generated.
+C/C++: In file included from /home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/cpp/openssl/ssl/ssl_asn1.c:18:
+C/C++: /home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/cpp/openssl/include/crypto/asn1.h:45:5: warning: 'nonstring' attribute only applies to fields or variables of character array type; type is 'unsigned char *' [-Wignored-attributes]
+C/C++:    45 |     unsigned char *data OPENSSL_NONSTRING;
+C/C++:       |     ^                   ~~~~~~~~~~~~~~~~~
+C/C++: 1 warning generated.
+
+> Task :openvpn:mergeSkeletonReleaseJniLibFolders
+> Task :openvpn:mergeSkeletonReleaseNativeLibs
+> Task :openvpn:copySkeletonReleaseJniLibsProjectOnly
+
+> Task :openvpn:generateOpenVPN3SwigskeletonRelease
+src/main/cpp/openvpn3/openvpn/client/dns_options.hpp:155: Warning 503: Can't wrap 'operator ==' unless renamed to a valid identifier.
+src/main/cpp/openvpn3/openvpn/client/dns_options.hpp:208: Warning 503: Can't wrap 'operator ==' unless renamed to a valid identifier.
+src/main/cpp/openvpn3/openvpn/client/dns_options.hpp:508: Warning 503: Can't wrap 'operator ==' unless renamed to a valid identifier.
+src/main/cpp/openvpn3/openvpn/client/dns_options.hpp:627: Warning 503: Can't wrap 'operator ==' unless renamed to a valid identifier.
+
+> Task :openvpn:compileSkeletonReleaseAidl
+> Task :openvpn:generateSkeletonReleaseBuildConfig
+> Task :openvpn:generateSkeletonReleaseResources
+> Task :openvpn:packageSkeletonReleaseResources
+> Task :openvpn:processSkeletonReleaseNavigationResources
+> Task :app:mergeReleaseNativeLibs
+> Task :openvpn:javaPreCompileSkeletonRelease
+> Task :openvpn:parseSkeletonReleaseLocalResources
+
+> Task :app:stripReleaseDebugSymbols
+Unable to strip the following libraries, packaging them as they are: libandroidx.graphics.path.so, libopenvpn.so, libosslspeedtest.so, libosslutil.so, libovpn3.so, libovpnexec.so, libovpnutil.so. Run with --info option to learn more.
+
+> Task :app:checkReleaseDuplicateClasses
+> Task :app:extractReleaseNativeSymbolTables
+> Task :app:mergeReleaseNativeDebugMetadata NO-SOURCE
+> Task :app:generateReleaseResources
+> Task :app:packageReleaseResources
+> Task :openvpn:generateSkeletonReleaseRFile
+> Task :app:processReleaseNavigationResources
+> Task :openvpn:compileSkeletonReleaseKotlin NO-SOURCE
+
+> Task :openvpn:compileSkeletonReleaseJavaWithJavac
+/home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVPNManagement.java:55: error: cannot find symbol
+    void sendAccMessage(AccMessage msg);
+                        ^
+  symbol:   class AccMessage
+  location: interface OpenVPNManagement
+/home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVPNService.java:166: error: cannot find symbol
+    private DPC1Protocol accReceiver = new DPC1Protocol();
+            ^
+  symbol:   class DPC1Protocol
+  location: class OpenVPNService
+/home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVPNService.java:1517: error: cannot find symbol
+    void receiveAccMessage(AccMessage accMessage) {
+                           ^
+  symbol:   class AccMessage
+  location: class OpenVPNService
+/home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVpnManagementThread.java:768: error: cannot find symbol
+    public void sendAccMessage(AccMessage accMessage)
+                               ^
+  symbol:   class AccMessage
+  location: class OpenVpnManagementThread
+/home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVPNService.java:166: error: cannot find symbol
+    private DPC1Protocol accReceiver = new DPC1Protocol();
+                                           ^
+  symbol:   class DPC1Protocol
+  location: class OpenVPNService
+/home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVPNService.java:1529: error: cannot find symbol
+        AccMessage response = accReceiver.processMessage(accMessage);
+        ^
+  symbol:   class AccMessage
+  location: class OpenVPNService
+/home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVpnManagementThread.java:354: error: cannot find symbol
+            @NotNull AccMessage acc = AppCustomControl.parseAccMessage(argument);
+                     ^
+  symbol:   class AccMessage
+  location: class OpenVpnManagementThread
+/home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVpnManagementThread.java:354: error: cannot find symbol
+            @NotNull AccMessage acc = AppCustomControl.parseAccMessage(argument);
+                                      ^
+  symbol:   variable AppCustomControl
+  location: class OpenVpnManagementThread
+Note: Some input files use or override a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: Some input files use unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+8 errors
+
+> Task :openvpn:compileSkeletonReleaseJavaWithJavac FAILED
+gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run_3-1795567539442.json
+
+[Incubating] Problems report is available at: file:///home/runner/work/reklamsiz-vpn/reklamsiz-vpn/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':openvpn:compileSkeletonReleaseJavaWithJavac' (registered by plugin 'com.android.internal.library').
+> Compilation failed; see the compiler output below.
+  Note: Recompile with -Xlint:deprecation for details.
+  /home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVPNManagement.java:55: error: cannot find symbol
+      void sendAccMessage(AccMessage msg);
+                          ^
+    symbol:   class AccMessage
+    location: interface OpenVPNManagement
+  /home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVPNService.java:166: error: cannot find symbol
+      private DPC1Protocol accReceiver = new DPC1Protocol();
+              ^
+    symbol:   class DPC1Protocol
+    location: class OpenVPNService
+  /home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVPNService.java:1517: error: cannot find symbol
+      void receiveAccMessage(AccMessage accMessage) {
+                             ^
+    symbol:   class AccMessage
+    location: class OpenVPNService
+  /home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVpnManagementThread.java:768: error: cannot find symbol
+      public void sendAccMessage(AccMessage accMessage)
+                                 ^
+    symbol:   class AccMessage
+    location: class OpenVpnManagementThread
+  /home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVPNService.java:166: error: cannot find symbol
+      private DPC1Protocol accReceiver = new DPC1Protocol();
+                                             ^
+    symbol:   class DPC1Protocol
+    location: class OpenVPNService
+  /home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVPNService.java:1529: error: cannot find symbol
+          AccMessage response = accReceiver.processMessage(accMessage);
+          ^
+    symbol:   class AccMessage
+    location: class OpenVPNService
+  /home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVpnManagementThread.java:354: error: cannot find symbol
+              @NotNull AccMessage acc = AppCustomControl.parseAccMessage(argument);
+                       ^
+    symbol:   class AccMessage
+    location: class OpenVpnManagementThread
+  /home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVpnManagementThread.java:354: error: cannot find symbol
+              @NotNull AccMessage acc = AppCustomControl.parseAccMessage(argument);
+                                        ^
+    symbol:   variable AppCustomControl
+    location: class OpenVpnManagementThread
+  Note: Recompile with -Xlint:unchecked for details.
+  Note: Some input files use or override a deprecated API.
+  Note: Some input files use unchecked or unsafe operations.
+  8 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+
+* Exception is:
+org.gradle.api.tasks.TaskExecutionException: Execution failed for task ':openvpn:compileSkeletonReleaseJavaWithJavac' (registered by plugin 'com.android.internal.library').
+	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.lambda$executeIfValid$1(ExecuteActionsTaskExecuter.java:135)
+	at org.gradle.internal.Try$Failure.ifSuccessfulOrElse(Try.java:288)
+	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.executeIfValid(ExecuteActionsTaskExecuter.java:133)
+	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.execute(ExecuteActionsTaskExecuter.java:121)
+	at org.gradle.api.internal.tasks.execution.ProblemsTaskPathTrackingTaskExecuter.execute(ProblemsTaskPathTrackingTaskExecuter.java:41)
+	at org.gradle.api.internal.tasks.execution.ResolveTaskExecutionModeExecuter.execute(ResolveTaskExecutionModeExecuter.java:51)
+	at org.gradle.api.internal.tasks.execution.FinalizePropertiesTaskExecuter.execute(FinalizePropertiesTaskExecuter.java:46)
+	at org.gradle.api.internal.tasks.execution.SkipTaskWithNoActionsExecuter.execute(SkipTaskWithNoActionsExecuter.java:57)
+	at org.gradle.api.internal.tasks.execution.SkipOnlyIfTaskExecuter.execute(SkipOnlyIfTaskExecuter.java:74)
+	at org.gradle.api.internal.tasks.execution.CatchExceptionTaskExecuter.execute(CatchExceptionTaskExecuter.java:36)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.executeTask(EventFiringTaskExecuter.java:77)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:55)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:52)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:210)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:205)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:67)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:60)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:167)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:60)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:54)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter.execute(EventFiringTaskExecuter.java:52)
+	at org.gradle.execution.plan.DefaultNodeExecutor.executeLocalTaskNode(DefaultNodeExecutor.java:55)
+	at org.gradle.execution.plan.DefaultNodeExecutor.execute(DefaultNodeExecutor.java:34)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:355)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:343)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.lambda$execute$0(DefaultTaskExecutionGraph.java:339)
+	at org.gradle.internal.operations.CurrentBuildOperationRef.with(CurrentBuildOperationRef.java:84)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:339)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:328)
+	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.execute(DefaultPlanExecutor.java:459)
+	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.run(DefaultPlanExecutor.java:376)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:65)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+Caused by: org.gradle.api.internal.tasks.compile.CompilationFailedException: Compilation failed; see the compiler output below.
+/home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVPNManagement.java:55: error: cannot find symbol
+    void sendAccMessage(AccMessage msg);
+                        ^
+  symbol:   class AccMessage
+  location: interface OpenVPNManagement
+/home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVPNService.java:166: error: cannot find symbol
+    private DPC1Protocol accReceiver = new DPC1Protocol();
+            ^
+  symbol:   class DPC1Protocol
+  location: class OpenVPNService
+/home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVPNService.java:1517: error: cannot find symbol
+    void receiveAccMessage(AccMessage accMessage) {
+                           ^
+  symbol:   class AccMessage
+  location: class OpenVPNService
+/home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVpnManagementThread.java:768: error: cannot find symbol
+    public void sendAccMessage(AccMessage accMessage)
+                               ^
+  symbol:   class AccMessage
+  location: class OpenVpnManagementThread
+/home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVPNService.java:166: error: cannot find symbol
+    private DPC1Protocol accReceiver = new DPC1Protocol();
+                                           ^
+  symbol:   class DPC1Protocol
+  location: class OpenVPNService
+/home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVPNService.java:1529: error: cannot find symbol
+        AccMessage response = accReceiver.processMessage(accMessage);
+        ^
+  symbol:   class AccMessage
+  location: class OpenVPNService
+/home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVpnManagementThread.java:354: error: cannot find symbol
+            @NotNull AccMessage acc = AppCustomControl.parseAccMessage(argument);
+                     ^
+  symbol:   class AccMessage
+  location: class OpenVpnManagementThread
+/home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVpnManagementThread.java:354: error: cannot find symbol
+            @NotNull AccMessage acc = AppCustomControl.parseAccMessage(argument);
+                                      ^
+  symbol:   variable AppCustomControl
+  location: class OpenVpnManagementThread
+Note: Some input files use or override a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: Some input files use unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+8 errors
+	at org.gradle.api.internal.tasks.compile.JdkJavaCompiler.execute(JdkJavaCompiler.java:88)
+	at org.gradle.api.internal.tasks.compile.JdkJavaCompiler.execute(JdkJavaCompiler.java:49)
+	at org.gradle.api.internal.tasks.compile.NormalizingJavaCompiler.delegateAndHandleErrors(NormalizingJavaCompiler.java:98)
+	at org.gradle.api.internal.tasks.compile.NormalizingJavaCompiler.execute(NormalizingJavaCompiler.java:52)
+	at org.gradle.api.internal.tasks.compile.NormalizingJavaCompiler.execute(NormalizingJavaCompiler.java:38)
+	at org.gradle.api.internal.tasks.compile.AnnotationProcessorDiscoveringCompiler.execute(AnnotationProcessorDiscoveringCompiler.java:52)
+	at org.gradle.api.internal.tasks.compile.AnnotationProcessorDiscoveringCompiler.execute(AnnotationProcessorDiscoveringCompiler.java:38)
+	at org.gradle.api.internal.tasks.compile.ModuleApplicationNameWritingCompiler.execute(ModuleApplicationNameWritingCompiler.java:46)
+	at org.gradle.api.internal.tasks.compile.ModuleApplicationNameWritingCompiler.execute(ModuleApplicationNameWritingCompiler.java:36)
+	at org.gradle.jvm.toolchain.internal.DefaultToolchainJavaCompiler.execute(DefaultToolchainJavaCompiler.java:57)
+	at org.gradle.api.tasks.compile.JavaCompile.lambda$createToolchainCompiler$0(JavaCompile.java:207)
+	at org.gradle.api.internal.tasks.compile.CleaningJavaCompiler.execute(CleaningJavaCompiler.java:53)
+	at org.gradle.api.internal.tasks.compile.incremental.IncrementalCompilerFactory.lambda$createRebuildAllCompiler$0(IncrementalCompilerFactory.java:55)
+	at org.gradle.api.internal.tasks.compile.incremental.SelectiveCompiler.execute(SelectiveCompiler.java:70)
+	at org.gradle.api.internal.tasks.compile.incremental.SelectiveCompiler.execute(SelectiveCompiler.java:44)
+	at org.gradle.api.internal.tasks.compile.incremental.IncrementalResultStoringCompiler.execute(IncrementalResultStoringCompiler.java:66)
+	at org.gradle.api.internal.tasks.compile.incremental.IncrementalResultStoringCompiler.execute(IncrementalResultStoringCompiler.java:52)
+	at org.gradle.api.internal.tasks.compile.CompileJavaBuildOperationReportingCompiler$CompileOperation.call(CompileJavaBuildOperationReportingCompiler.java:78)
+	at org.gradle.api.internal.tasks.compile.CompileJavaBuildOperationReportingCompiler$CompileOperation.call(CompileJavaBuildOperationReportingCompiler.java:52)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:210)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:205)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:67)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:60)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:167)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:60)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:54)
+	at org.gradle.api.internal.tasks.compile.CompileJavaBuildOperationReportingCompiler.execute(CompileJavaBuildOperationReportingCompiler.java:49)
+	at org.gradle.api.tasks.compile.JavaCompile.performCompilation(JavaCompile.java:225)
+	at org.gradle.api.tasks.compile.JavaCompile.performIncrementalCompilation(JavaCompile.java:166)
+	at org.gradle.api.tasks.compile.JavaCompile.compile(JavaCompile.java:151)
+	at org.gradle.internal.reflect.JavaMethod.invoke(JavaMethod.java:125)
+	at org.gradle.api.internal.project.taskfactory.IncrementalTaskAction.doExecute(IncrementalTaskAction.java:45)
+	at org.gradle.api.internal.project.taskfactory.StandardTaskAction.execute(StandardTaskAction.java:51)
+	at org.gradle.api.internal.project.taskfactory.IncrementalTaskAction.execute(IncrementalTaskAction.java:26)
+	at org.gradle.api.internal.project.taskfactory.StandardTaskAction.execute(StandardTaskAction.java:29)
+	at org.gradle.api.internal.tasks.execution.TaskExecution$3.run(TaskExecution.java:259)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(DefaultBuildOperationRunner.java:30)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(DefaultBuildOperationRunner.java:27)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:67)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:60)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:167)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:60)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.run(DefaultBuildOperationRunner.java:48)
+	at org.gradle.api.internal.tasks.execution.TaskExecution.executeAction(TaskExecution.java:244)
+	at org.gradle.api.internal.tasks.execution.TaskExecution.executeActions(TaskExecution.java:227)
+	at org.gradle.api.internal.tasks.execution.TaskExecution.executeWithPreviousOutputFiles(TaskExecution.java:210)
+	at org.gradle.api.internal.tasks.execution.TaskExecution.execute(TaskExecution.java:176)
+	at org.gradle.internal.execution.steps.ExecuteStep.executeInternal(ExecuteStep.java:167)
+	at org.gradle.internal.execution.steps.ExecuteStep.access$000(ExecuteStep.java:47)
+	at org.gradle.internal.execution.steps.ExecuteStep$1.call(ExecuteStep.java:137)
+	at org.gradle.internal.execution.steps.ExecuteStep$1.call(ExecuteStep.java:134)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:210)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:205)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:67)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:60)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:167)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:60)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:54)
+	at org.gradle.internal.execution.steps.ExecuteStep.execute(ExecuteStep.java:134)
+	at org.gradle.internal.execution.steps.ExecuteStep$Mutable.execute(ExecuteStep.java:80)
+	at org.gradle.internal.execution.steps.CancelExecutionStep.execute(CancelExecutionStep.java:42)
+	at org.gradle.internal.execution.steps.TimeoutStep.executeWithoutTimeout(TimeoutStep.java:75)
+	at org.gradle.internal.execution.steps.TimeoutStep.execute(TimeoutStep.java:55)
+	at org.gradle.internal.execution.steps.PreCreateOutputParentsStep.execute(PreCreateOutputParentsStep.java:51)
+	at org.gradle.internal.execution.steps.PreCreateOutputParentsStep.execute(PreCreateOutputParentsStep.java:29)
+	at org.gradle.internal.execution.steps.RemovePreviousOutputsStep.executeMutable(RemovePreviousOutputsStep.java:67)
+	at org.gradle.internal.execution.steps.RemovePreviousOutputsStep.executeMutable(RemovePreviousOutputsStep.java:39)
+	at org.gradle.internal.execution.steps.MutableStep.execute(MutableStep.java:26)
+	at org.gradle.internal.execution.steps.BroadcastChangingOutputsStep.execute(BroadcastChangingOutputsStep.java:42)
+	at org.gradle.internal.execution.steps.BroadcastChangingOutputsStep.execute(BroadcastChangingOutputsStep.java:24)
+	at org.gradle.internal.execution.steps.CaptureOutputsAfterExecutionStep.execute(CaptureOutputsAfterExecutionStep.java:69)
+	at org.gradle.internal.execution.steps.CaptureOutputsAfterExecutionStep.execute(CaptureOutputsAfterExecutionStep.java:46)
+	at org.gradle.internal.execution.steps.ResolveInputChangesStep.executeMutable(ResolveInputChangesStep.java:39)
+	at org.gradle.internal.execution.steps.ResolveInputChangesStep.executeMutable(ResolveInputChangesStep.java:28)
+	at org.gradle.internal.execution.steps.MutableStep.execute(MutableStep.java:26)
+	at org.gradle.internal.execution.steps.BuildCacheStep.executeWithoutCache(BuildCacheStep.java:189)
+	at org.gradle.internal.execution.steps.BuildCacheStep.lambda$execute$1(BuildCacheStep.java:76)
+	at org.gradle.internal.Either$Right.fold(Either.java:176)
+	at org.gradle.internal.execution.caching.CachingState.fold(CachingState.java:62)
+	at org.gradle.internal.execution.steps.BuildCacheStep.execute(BuildCacheStep.java:74)
+	at org.gradle.internal.execution.steps.BuildCacheStep.execute(BuildCacheStep.java:49)
+	at org.gradle.internal.execution.steps.StoreExecutionStateStep.executeMutable(StoreExecutionStateStep.java:46)
+	at org.gradle.internal.execution.steps.StoreExecutionStateStep.executeMutable(StoreExecutionStateStep.java:35)
+	at org.gradle.internal.execution.steps.MutableStep.execute(MutableStep.java:26)
+	at org.gradle.internal.execution.steps.SkipUpToDateStep.executeBecause(SkipUpToDateStep.java:75)
+	at org.gradle.internal.execution.steps.SkipUpToDateStep.lambda$execute$2(SkipUpToDateStep.java:53)
+	at org.gradle.internal.execution.steps.SkipUpToDateStep.execute(SkipUpToDateStep.java:53)
+	at org.gradle.internal.execution.steps.SkipUpToDateStep.execute(SkipUpToDateStep.java:35)
+	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsFinishedStep.execute(MarkSnapshottingInputsFinishedStep.java:37)
+	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsFinishedStep.execute(MarkSnapshottingInputsFinishedStep.java:27)
+	at org.gradle.internal.execution.steps.ResolveMutableCachingStateStep.executeDelegate(ResolveMutableCachingStateStep.java:70)
+	at org.gradle.internal.execution.steps.ResolveMutableCachingStateStep.executeDelegate(ResolveMutableCachingStateStep.java:32)
+	at org.gradle.internal.execution.steps.AbstractResolveCachingStateStep.execute(AbstractResolveCachingStateStep.java:69)
+	at org.gradle.internal.execution.steps.AbstractResolveCachingStateStep.execute(AbstractResolveCachingStateStep.java:37)
+	at org.gradle.internal.execution.steps.ResolveChangesStep.executeMutable(ResolveChangesStep.java:63)
+	at org.gradle.internal.execution.steps.ResolveChangesStep.executeMutable(ResolveChangesStep.java:34)
+	at org.gradle.internal.execution.steps.MutableStep.execute(MutableStep.java:26)
+	at org.gradle.internal.execution.steps.ValidateStep$Mutable.executeDelegate(ValidateStep.java:79)
+	at org.gradle.internal.execution.steps.ValidateStep$Mutable.executeDelegate(ValidateStep.java:65)
+	at org.gradle.internal.execution.steps.ValidateStep.execute(ValidateStep.java:105)
+	at org.gradle.internal.execution.steps.ValidateStep$Mutable.execute(ValidateStep.java:65)
+	at org.gradle.internal.execution.steps.CaptureMutableStateBeforeExecutionStep.executeMutable(CaptureMutableStateBeforeExecutionStep.java:86)
+	at org.gradle.internal.execution.steps.CaptureMutableStateBeforeExecutionStep.execute(CaptureMutableStateBeforeExecutionStep.java:65)
+	at org.gradle.internal.execution.steps.CaptureMutableStateBeforeExecutionStep.execute(CaptureMutableStateBeforeExecutionStep.java:45)
+	at org.gradle.internal.execution.steps.SkipEmptyMutableWorkStep.executeWithNonEmptySources(SkipEmptyMutableWorkStep.java:210)
+	at org.gradle.internal.execution.steps.SkipEmptyMutableWorkStep.executeMutable(SkipEmptyMutableWorkStep.java:90)
+	at org.gradle.internal.execution.steps.SkipEmptyMutableWorkStep.executeMutable(SkipEmptyMutableWorkStep.java:53)
+	at org.gradle.internal.execution.steps.MutableStep.execute(MutableStep.java:26)
+	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsStartedStep.execute(MarkSnapshottingInputsStartedStep.java:38)
+	at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.executeMutable(LoadPreviousExecutionStateStep.java:36)
+	at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.executeMutable(LoadPreviousExecutionStateStep.java:23)
+	at org.gradle.internal.execution.steps.MutableStep.execute(MutableStep.java:26)
+	at org.gradle.internal.execution.steps.HandleStaleOutputsStep.executeMutable(HandleStaleOutputsStep.java:77)
+	at org.gradle.internal.execution.steps.HandleStaleOutputsStep.executeMutable(HandleStaleOutputsStep.java:43)
+	at org.gradle.internal.execution.steps.MutableStep.execute(MutableStep.java:26)
+	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.lambda$executeMutable$0(AssignMutableWorkspaceStep.java:34)
+	at org.gradle.api.internal.tasks.execution.TaskExecution$4.withWorkspace(TaskExecution.java:305)
+	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.executeMutable(AssignMutableWorkspaceStep.java:30)
+	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.executeMutable(AssignMutableWorkspaceStep.java:21)
+	at org.gradle.internal.execution.steps.MutableStep.execute(MutableStep.java:26)
+	at org.gradle.internal.execution.steps.ChoosePipelineStep.execute(ChoosePipelineStep.java:40)
+	at org.gradle.internal.execution.steps.ChoosePipelineStep.execute(ChoosePipelineStep.java:23)
+	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.lambda$execute$2(ExecuteWorkBuildOperationFiringStep.java:67)
+	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.execute(ExecuteWorkBuildOperationFiringStep.java:67)
+	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.execute(ExecuteWorkBuildOperationFiringStep.java:39)
+	at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCacheStep.java:46)
+	at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCacheStep.java:34)
+	at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:56)
+	at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:38)
+	at org.gradle.internal.execution.impl.DefaultExecutionEngine$1.execute(DefaultExecutionEngine.java:68)
+	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.executeIfValid(ExecuteActionsTaskExecuter.java:132)
+	... 30 more
+
+
+BUILD FAILED in 3m 11s
+25 actionable tasks: 25 executed

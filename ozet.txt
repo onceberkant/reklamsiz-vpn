@@ -1,0 +1,47 @@
+79:C/C++: /home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/cpp/openssl/crypto/ec/ecp_sm2p256.c:142:9: note: expanded from macro 'BN_MOD_INV'
+83:C/C++: /home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/cpp/openssl/crypto/ec/ecp_sm2p256.c:143:9: note: expanded from macro 'BN_MOD_INV'
+113:Unable to strip the following libraries, packaging them as they are: libandroidx.graphics.path.so, libopenvpn.so, libosslspeedtest.so, libosslutil.so, libovpn3.so, libovpnexec.so, libovpnutil.so. Run with --info option to learn more.
+125:/home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVPNManagement.java:55: error: cannot find symbol
+130:/home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVPNService.java:166: error: cannot find symbol
+135:/home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVPNService.java:1517: error: cannot find symbol
+140:/home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVpnManagementThread.java:768: error: cannot find symbol
+145:/home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVPNService.java:166: error: cannot find symbol
+150:/home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVPNService.java:1529: error: cannot find symbol
+155:/home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVpnManagementThread.java:354: error: cannot find symbol
+160:/home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVpnManagementThread.java:354: error: cannot find symbol
+165:Note: Some input files use or override a deprecated API.
+166:Note: Recompile with -Xlint:deprecation for details.
+167:Note: Some input files use unchecked or unsafe operations.
+168:Note: Recompile with -Xlint:unchecked for details.
+176:FAILURE: Build failed with an exception.
+178:* What went wrong:
+179:Execution failed for task ':openvpn:compileSkeletonReleaseJavaWithJavac' (registered by plugin 'com.android.internal.library').
+180:> Compilation failed; see the compiler output below.
+181:  Note: Recompile with -Xlint:deprecation for details.
+182:  /home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVPNManagement.java:55: error: cannot find symbol
+187:  /home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVPNService.java:166: error: cannot find symbol
+192:  /home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVPNService.java:1517: error: cannot find symbol
+197:  /home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVpnManagementThread.java:768: error: cannot find symbol
+202:  /home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVPNService.java:166: error: cannot find symbol
+207:  /home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVPNService.java:1529: error: cannot find symbol
+212:  /home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVpnManagementThread.java:354: error: cannot find symbol
+217:  /home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVpnManagementThread.java:354: error: cannot find symbol
+222:  Note: Recompile with -Xlint:unchecked for details.
+223:  Note: Some input files use or override a deprecated API.
+224:  Note: Some input files use unchecked or unsafe operations.
+231:* Exception is:
+232:org.gradle.api.tasks.TaskExecutionException: Execution failed for task ':openvpn:compileSkeletonReleaseJavaWithJavac' (registered by plugin 'com.android.internal.library').
+242:	at org.gradle.api.internal.tasks.execution.CatchExceptionTaskExecuter.execute(CatchExceptionTaskExecuter.java:36)
+266:Caused by: org.gradle.api.internal.tasks.compile.CompilationFailedException: Compilation failed; see the compiler output below.
+267:/home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVPNManagement.java:55: error: cannot find symbol
+272:/home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVPNService.java:166: error: cannot find symbol
+277:/home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVPNService.java:1517: error: cannot find symbol
+282:/home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVpnManagementThread.java:768: error: cannot find symbol
+287:/home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVPNService.java:166: error: cannot find symbol
+292:/home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVPNService.java:1529: error: cannot find symbol
+297:/home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVpnManagementThread.java:354: error: cannot find symbol
+302:/home/runner/work/reklamsiz-vpn/reklamsiz-vpn/third_party/ics-openvpn/main/src/main/java/de/blinkt/openvpn/core/OpenVpnManagementThread.java:354: error: cannot find symbol
+307:Note: Some input files use or override a deprecated API.
+308:Note: Recompile with -Xlint:deprecation for details.
+309:Note: Some input files use unchecked or unsafe operations.
+310:Note: Recompile with -Xlint:unchecked for details.
