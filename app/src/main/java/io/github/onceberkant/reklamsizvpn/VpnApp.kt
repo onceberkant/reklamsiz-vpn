@@ -13,9 +13,11 @@ import java.io.File
 class VpnApp : ICSOpenVPNApplication() {
 
     override fun onCreate() {
+        val process = currentProcessName()
+        CrashRecorder.install(this, process)
         super.onCreate()
         // onCreate hem ana süreçte hem ":openvpn" sürecinde çalışır
-        if (currentProcessName() == packageName) {
+        if (process == packageName) {
             VpnController.init(this)
         }
     }

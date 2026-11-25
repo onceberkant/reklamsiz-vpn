@@ -26,6 +26,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import de.blinkt.openvpn.core.VpnStatus
+import io.github.onceberkant.reklamsizvpn.BuildConfig
+import io.github.onceberkant.reklamsizvpn.CrashRecorder
 import io.github.onceberkant.reklamsizvpn.ui.MainScreen
 import io.github.onceberkant.reklamsizvpn.ui.MainViewModel
 import io.github.onceberkant.reklamsizvpn.vpn.VpnController
@@ -114,9 +116,15 @@ class MainActivity : ComponentActivity() {
 
     private fun copyLog() {
         val format = SimpleDateFormat("HH:mm:ss", Locale.ROOT)
-        val text = VpnStatus.getlogbuffer().joinToString("\n") { item ->
+        val log = VpnStatus.getlogbuffer().joinToString("\n") { item ->
             format.format(Date(item.logtime)) + "  " + item.getString(this)
         }.ifBlank { "Günlük boş." }
+        val crash = CrashRecorder.read(this)
+        val text = buildString {
+            append("Reklamsız VPN ").append(BuildConfig.VERSION_NAME).append("\n\n")
+            if (crash != null) append("=== SON ÇÖKME ===\n").append(crash).append("\n\n")
+            append("=== BAĞLANTI GÜNLÜĞÜ ===\n").append(log)
+        }
         val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         clipboard.setPrimaryClip(ClipData.newPlainText("Reklamsız VPN günlüğü", text))
         toast("Günlük panoya kopyalandı")
